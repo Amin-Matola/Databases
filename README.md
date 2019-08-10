@@ -1,2 +1,2 @@
 # jobportal
-PHP Backend developement for friend's school project for jobs -- India
+PHP project for jobs -- India
