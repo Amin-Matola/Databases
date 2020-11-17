@@ -3,12 +3,12 @@
 <html>
 <head>
 	<title>Forms</title>
-	<link rel="stylesheet" type="text/css" href="style.css"/>
+	<link rel="stylesheet" type="text/css" href="assets/style.css"/>
 	<script type="text/javascript" src="assets/jquery.min.js"></script>
 </head>
 <body>
 	<h1>Form Manipulations</h1>
-	<form name="first-form" method="post" action='actions.php'>
+	<form name="first-form" method="post" action='handler.php'>
 		<legend>Form Name Here</legend>
 		<input type="url" name="website" placeholder="Website url..." class="first-form" required="1"/><br/>
 		<input type="email" name="email" placeholder="user@example.com" class="first-form" required="1"/><br/>
