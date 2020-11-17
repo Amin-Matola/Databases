@@ -1,0 +1,98 @@
+html,body{
+	width: 100%;
+	margin:0px;
+	margin:0px;
+}
+
+h1{
+	text-align:center;
+}
+form{
+	width:30%;
+	margin:auto;
+	background: #efefef;
+	padding:0px 0px 20px;
+	border: 0.5px solid lightgrey;
+}
+
+form legend{
+	text-align: center;
+	background: white;
+	margin: 1px 1px 20px;
+	height:40px;
+	padding-top:10px;
+	box-sizing: border-box;
+	font-size:1.2em;
+	/*margin-bottom: 10px;*/
+
+}
+
+form input{
+	width:90%;
+	height:40px;
+	margin:10px 4%;
+	padding-left:10px;
+	padding-right:10px;
+	font-size:1em;
+	border:0px solid black;
+	border-radius:5px;
+}
+
+form input:focus{
+	outline:0;
+}
+
+form input[name="website"]{
+	margin-top: 0px;
+}
+
+/*form input[name="email"]{
+	margin-bottom: 0px !important;
+}*/
+
+/*form input[name="phone"]{
+	margin-top:0px !important;
+}*/
+
+form input[type="submit"]{
+	width:20%;
+	margin:10px 40%;
+	box-shadow: -1px -2 -2px lightgrey;
+	border-radius: 10px;
+	border-right:0px solid white;
+	background:white;
+	border:1px solid grey;
+	box-shadow: 2px 2px lightgrey;
+}
+
+form input[type="submit"]:hover{
+	background: #e8e8e8;
+}
+
+form input.second-form{
+	display: none;
+}
+
+@media only screen and (max-width: 1230px){
+    form{
+        width:40%;
+    }
+}
+
+@media only screen and (max-width: 850px){
+    form{
+        width:50%;
+    }
+    form input{
+        width:80%;
+        margin-right: 8%;
+        margin-left: 8%;
+    }
+}
+
+@media only screen and (max-width: 670px){
+    form{
+        width:80%;
+    }
+}
+
