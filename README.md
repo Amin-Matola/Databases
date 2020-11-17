@@ -1,2 +1,3 @@
-# jobportal
-PHP project for jobs -- India
+# DATABASES
+
+Handling database operations
