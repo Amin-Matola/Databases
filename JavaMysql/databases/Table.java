@@ -60,7 +60,7 @@ public class Table extends Database{
             table = this.table;
         }
 
-        if( table.isEmpty() ){
+        if( ! table.isEmpty() ){
             this.run(f("DROP TABLE IF EXISTS %s", table));
             return true;
         }
