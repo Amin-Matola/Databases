@@ -55,13 +55,13 @@ public class Table extends Database{
     /* *
      * What if we want to delete this table
      * */
-    public boolean delete(String table){
-        if(table.isEmpty()){
-            table = this.table;
-        }
+    public boolean delete(String ...table){
 
-        if( ! table.isEmpty() ){
-            this.run(f("DROP TABLE IF EXISTS %s", table));
+        String _tb          = table.length > 0 ? table[0] : this.table;
+
+        if( ! _tb.isEmpty() ){
+            this.clear();
+            this.run(f("DROP TABLE IF EXISTS %s", _tb));
             return true;
         }
         return false;
