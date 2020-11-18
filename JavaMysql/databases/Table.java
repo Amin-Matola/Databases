@@ -36,7 +36,7 @@ public class Table extends Database{
             columns += f("%s %s,", k, v);
         });
 
-        columns   = columns.substring(0, columns.length() -1 ) + ")";
+        columns   = columns.substring(0, columns.length() - 1 ) + ")";
 
         String query  = f("CREATE TABLE IF NOT EXISTS %s %s;", table, columns);
 
@@ -118,7 +118,7 @@ public class Table extends Database{
         String q         = f("INSERT INTO %s(", table);
 
         String cols      = String.join(",", data.keySet());
-        String vals      = String.join(",", quoteAll(new ArrayList(data.values())));
+        String vals      = String.join(",", quote(new ArrayList(data.values())));
 
 
         String query     = f("%s %s ) VALUES( %s );", q, cols, vals);
@@ -126,10 +126,104 @@ public class Table extends Database{
 
     }
 
-    public List quoteAll(List data) {
+    public List quote(List data) {
         return (List) data.stream().map(
                 (i) -> f("'%s'", String.valueOf(i))
         ).collect(Collectors.toList());
+    }
+
+    public String buildTest(Map<String, Object> item){
+        String result = "";
+
+        if(item.isEmpty())
+            result     = "1 = 1";
+
+        for(Map.Entry<String, Object> iterator : item.entrySet()) {
+            if (!result.isEmpty() && !result.isBlank())
+                result = f("%s and %s='%s'", result, iterator.getKey(), string(iterator.getValue()));
+            else
+                result = f("%s='%s'", iterator.getKey(), iterator.getValue());
+        }
+        return result;
+    }
+
+    /* *
+     * Get single row as array
+     * */
+    public Map getOne(Map<String, Object> ...test){
+
+
+        Map<String, Object>  term   =   test.length > 0? test[0] : new HashMap<>();
+
+        List l = readResults(
+                            this.run(
+                                    f("SELECT * FROM %s WHERE %s;",
+                                            this.table, buildTest(term)),
+                                    true)
+                    );
+
+        if( !l.isEmpty() )
+            return (Map) l.get(0);
+
+
+        return term;
+    }
+
+    /* *
+     * What if we want to add a column
+     * */
+    public void addColumn(String name, String description, String ...after){
+
+        if( name.isEmpty() || name.isBlank() )
+            return;
+        String pos = after.length < 1? this.lastColumn() : after[0];
+
+        String q      = f(
+                    "ALTER TABLE %s ADD COLUMN %s %s %s;",
+                            this.table,
+                            name,
+                            description,
+                            pos.length() > 1 ? "after " + pos : ""
+                        );
+        this.run(q);
+    }
+
+    public String lastColumn() {
+        String q                = f("SELECT * from %s", this.table);
+        ResultSet r             = this.run(q, true);
+
+        try {
+            ResultSetMetaData md = r.getMetaData();
+            return md.getColumnLabel(md.getColumnCount());
+        }catch(Exception e){
+            print(e);
+        }
+
+        return "";
+    }
+
+    public int lastColumnId() {
+        String q                = f("SELECT * from %s", this.table);
+        ResultSet r             = this.run(q, true);
+
+        try {
+            return r.getMetaData().getColumnCount();
+        } catch( Exception e) {}
+        return 0;
+    }
+
+    /* *
+     * Rename column
+     * */
+    public void renameColumn( String from, String to, String type){
+        this.run(f("ALTER TABLE %s CHANGE %s %s %s", this.table, from, to, type));
+    }
+
+    /* *
+     * Remove an existing column
+     * */
+    public void removeColumn(String name){
+        this.run(f("ALTER TABLE %s DROP COLUMN %s", this.table, name));
     }
 
     /* *
