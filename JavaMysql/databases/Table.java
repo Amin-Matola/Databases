@@ -118,7 +118,7 @@ public class Table extends Database{
         String q         = f("INSERT INTO %s(", table);
 
         String cols      = String.join(",", data.keySet());
-        String vals      = String.join(",", quote(new ArrayList(data.values())));
+        String vals      = String.join(",", quoteAll(new ArrayList(data.values())));
 
 
         String query     = f("%s %s ) VALUES( %s );", q, cols, vals);
@@ -126,9 +126,9 @@ public class Table extends Database{
 
     }
 
-    public List quote(List data) {
+    public List quoteAll(List data) {
         return (List) data.stream().map(
-                (i) -> String.format("'" + i + "'")
+                (i) -> f("'%s'", String.valueOf(i))
         ).collect(Collectors.toList());
     }
 
