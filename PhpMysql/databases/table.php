@@ -33,6 +33,7 @@ class Table extends Database{
         if(empty($name)){
             $name = !empty($this->table)?$this->table : TABLE;
         }
+
         
         if(empty($name) || empty($columns) || !is_array($columns)){
             return false;
@@ -74,12 +75,52 @@ class Table extends Database{
         return false;
     }
 
+    public function delete_row($c, $v) {
+        $this->run("DELETE FROM ".$this->table." WHERE $c = $v");
+    }
+
+    /** ****
+     * Get all available columns
+     * */
+    public function get_columns(){
+        return array_column($this->get_data_as_object(), "name");
+    }
+
+    /** ****
+     * Get all available columns as associative array
+     * */
+    public function get_columns_data(){
+        return $this->run("SELECT * from ".$this->table)->fetch_assoc();
+    }
+
+    /** ****
+     * Get all available columns as associative array
+     * */
+    public function get_columns_data_all(){
+        return $this->run("SELECT * from ".$this->table, true);
+    }
+
+    /** ****
+     * Get all available columns as associative array
+     * */
+    public function get_columns_data_all_($arr, $field){
+        $r = "";
+
+        if(!is_array($arr) || count($field) < 2){
+            return [];
+        }
+        foreach ($arr as $tb=>$n){
+            $r .= " left join $tb on ".$this->table.".".$field[0]." = $tb.".$field[1];
+        }
+        return $this->run("SELECT * from ".$this->table.$r, true);
+    }
+
 
     /* *
      * Get all the data in this table
      * */
     public function get_data(){
-        return $this->run("SELECT * FROM ".$this->table.";")->fetch_all();
+        return $this->run("SELECT * FROM ".$this->table.";", true);
     }
 
 
@@ -91,10 +132,43 @@ class Table extends Database{
     }
 
     /* *
+     * Get data as an object
+     * */
+    public function get_items_as_array($n = '1', $v = '1'){
+        return $this->run("SELECT * FROM ".$this->table." WHERE $n = '$v';", true);
+    }
+
+    /* *
+     * Get data as an object
+     * */
+    public function get_data_as_array($n = '1', $v = '1'){
+        return $this->run("SELECT * FROM ".$this->table." WHERE $n = '$v';");
+    }
+
+    /* *
      * Get single row as array
      * */
     public function get_object($n = '1', $v = '1'){
-        return $this->run("SELECT * FROM ".$this->table." WHERE $n='$v';")->fetch_object();
+        $re = $this->run("SELECT * FROM ".$this->table." WHERE $n='$v';");
+
+        return !empty($re)?$re->fetch_object():null;
+    }
+
+    /* *
+     * Update single row as array
+     * */
+    public function set_object($n = [], $check = []){
+
+        $cols   = "SET ";
+        foreach($n as $k=>$v){
+            $cols .= "$k = '$v',";
+        }
+
+        $q   = trim($cols, ",");
+
+        $quer= "UPDATE ".$this->table." $q WHERE ".$check[0]."=".$check[1];
+
+        $this->run($quer);
     }
 
     /* *
@@ -135,10 +209,26 @@ class Table extends Database{
     }
 
     /* *
-     * Run the given query
+     * Run the given query, 
+     * if the mysqli version is older, then fall back to manual.
      * */
-    public function run($query){
-        return self::$connection->query($query);
+    public function run($query, $al_ = false){
+        $q = self::$connection->query($query);
+        
+        
+        if($al_){
+            try{
+                return $q->fetch_all(MYSQLI_ASSOC);
+            } catch(Exception $e){
+                $rs = [];
+                while( $row = $q->fetch_assoc()){
+                    array_push($rs, $row);
+                }
+                print_r("The manual");
+                return $rs;
+            }
+        }
+        return $q;
     }
     
     
@@ -154,6 +244,8 @@ class Table extends Database{
         if(is_array($data)){
             return array_map([self::$connection, "real_escape_string"], $data);
         }
+
+        return $data;
     }
 
     /* *
@@ -179,6 +271,10 @@ class Table extends Database{
             return false;
         }
 
+        if(array_key_exists("password", $data)){
+            $data["password"] = md5($data["password"]);
+        }
+
         $data       = $this->uncrook($data);
         
         $q         = "INSERT INTO {$table}("; 
@@ -188,8 +284,7 @@ class Table extends Database{
 
         
         $query     = $q.$cols.") VALUES(".$vals.");";
-
-        print_r($this->last_column());
+        $this->run($query);
 
      }
 
@@ -200,6 +295,13 @@ class Table extends Database{
         $rows   = $this->run("select count(*) from ".$this->table.";")->fetch_array();
         
         return end($data);
+     }
+
+     /****************
+     * Free the memory when done
+     ******/
+     public function free($res){
+        $res->free_result();
      }
 
 
@@ -217,7 +319,7 @@ class Table extends Database{
     public function last_column($table = ''){
 
         $table = !empty( $table )? $table : $this->table;
-        $dt    = $this->run("DESC $table")->fetch_all();
+        $dt    = $this->run("DESC $table",true);
 
         return end( $dt )[0];
     }
@@ -235,17 +337,6 @@ class Table extends Database{
 
 }
 
-
-
-
-
-/* *
- * Public functions
- * */
- 
-function database(){
-    return new Database();
-}
 
 
 /* *
