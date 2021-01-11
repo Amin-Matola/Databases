@@ -157,7 +157,7 @@ class Table extends Database{
     /* *
      * Update single row as array
      * */
-    public function set_object($n = [], $check = []){
+    public function update_row($n = [], $check = []){
 
         $cols   = "SET ";
         $checks = "";
@@ -172,7 +172,7 @@ class Table extends Database{
 
         $q   = trim($cols, ",");
 
-        $quer= "UPDATE ".$this->table." $q WHERE ".trim($checks, "and");
+        $quer= "UPDATE ".$this->table." $q WHERE ".trim($checks, "and")??"1";
 
         $this->run($quer);
     }
