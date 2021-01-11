@@ -2,8 +2,8 @@
 
 
 /* *
- * Handle tables on their own
- * Extends from the main database class
+ * Handle tables on separately,
+ * Extends from the main abstract database class.
  * */
 class Table extends Database{
     public $table;
@@ -160,13 +160,19 @@ class Table extends Database{
     public function set_object($n = [], $check = []){
 
         $cols   = "SET ";
+        $checks = "";
+        
         foreach($n as $k=>$v){
             $cols .= "$k = '$v',";
+        }
+        
+        foreach($c as $t=>$v){
+            $checks .= "$t = '$v' and ";
         }
 
         $q   = trim($cols, ",");
 
-        $quer= "UPDATE ".$this->table." $q WHERE ".$check[0]."=".$check[1];
+        $quer= "UPDATE ".$this->table." $q WHERE ".trim($checks, "and");
 
         $this->run($quer);
     }
