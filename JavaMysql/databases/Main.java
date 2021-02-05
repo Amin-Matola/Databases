@@ -1,3 +1,10 @@
+/* ****************************
+ * Main Table class, handling Tables
+ * This class derives from Database Abstract Class
+ *
+ * Author:          AMIN MATOLA
+ * Date Modified:   17 Nov 2020
+ */
 package JavaMysql.databases;
 
 import java.util.HashMap;
