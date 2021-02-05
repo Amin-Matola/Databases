@@ -1,3 +1,10 @@
+/* ****************************
+ * The Database Abstract class, handling Databases and other common functions
+ * This class is the main class where table class is delived from
+ *
+ * Author:          AMIN MATOLA
+ * Date Modified:   17 Nov 2020
+ */
 package JavaMysql.databases;
 
 
