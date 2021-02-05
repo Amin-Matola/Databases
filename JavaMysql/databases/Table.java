@@ -206,6 +206,10 @@ public class Table extends Database{
 
     /* *
      * What if we want to add a column
+     *
+     * @param name         - String - Name of the column to be added
+     * @param description  - String - The description of the column, i.e INT, TEXT etc.
+     * @param after        - String, Optional - The name of the column this column should come after, default - to the end
      * */
     public void addColumn(String name, String description, String ...after){
 
@@ -223,6 +227,11 @@ public class Table extends Database{
         this.run(q);
     }
 
+    /* *
+     * Get name of the last colum of this table
+     * 
+     * @return name - String - Name of the last column of this table
+     * */
     public String lastColumn() {
         String q                = f("SELECT * from %s", this.table);
         ResultSet r             = this.run(q, true);
@@ -237,6 +246,11 @@ public class Table extends Database{
         return "";
     }
 
+    /* *
+     * Get the ID of the last column of this table
+     *
+     * @return id - int - The ID of the last column
+     * */
     public int lastColumnId() {
         String q                = f("SELECT * from %s", this.table);
         ResultSet r             = this.run(q, true);
@@ -249,6 +263,10 @@ public class Table extends Database{
 
     /* *
      * Rename column
+     *
+     * @param from - String - The Old name of the column to be renamed
+     * @param to   - String - The new name of which to rename this column with
+     * @param type - String - The type of the column, example "INT", or "INT NOT NULL" etc.
      * */
     public void renameColumn( String from, String to, String type){
         this.run(f("ALTER TABLE %s CHANGE %s %s %s", this.table, from, to, type));
@@ -256,6 +274,8 @@ public class Table extends Database{
 
     /* *
      * Remove an existing column
+     *
+     * @param name - String - Name of the column to be removed
      * */
     public void removeColumn(String name){
         this.run(f("ALTER TABLE %s DROP COLUMN %s", this.table, name));
