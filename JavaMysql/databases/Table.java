@@ -101,9 +101,24 @@ public class Table extends Database{
     public List getData(){
         return readResults(this.run(f("SELECT * FROM %s", this.table), true));
     }
+    
+    /* *
+     * Get JSON of this query
+     *
+     * @param query - The query to be executed
+     * @return JSON String of the queried data
+     * */
+    Object getJson(String ...query) {
+        if(query.length > 0)
+            return JSON.toJSONString(getData(query));
+        return getData();
+    }
 
     /* *
      * Insert data into the table
+     *
+     * @param table - String - The table of which to insert data to
+     * @param data  - Map    - The Map of key - value data to be inserted
      * */
     public void insert(String table, Map<String, Object> data){
 
@@ -126,6 +141,13 @@ public class Table extends Database{
 
     }
 
+    /* *
+     * Quote the provided data into strings
+     *
+     * @param data - List of data to be quoted
+     *
+     * @return List of data quoted ready to be inserted into database
+     * */
     public List quote(List data) {
         return (List) data.stream().map(
                 (i) -> f("'%s'", String.valueOf(i))
