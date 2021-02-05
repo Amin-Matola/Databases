@@ -137,7 +137,7 @@ public class Table extends Database{
      *
      * @return List of Data Read from This table in the database.
      * */
-    public List getData(){
+    public List getData(String ...query){
         return readResults(this.run(f("SELECT * FROM %s", this.table), true));
     }
     
