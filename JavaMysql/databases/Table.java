@@ -137,7 +137,7 @@ public class Table extends Database{
      *
      * @return List of Data Read from This table in the database.
      * */
-    public List getData(String ...query){
+    public List getData(){
         return readResults(this.run(f("SELECT * FROM %s", this.table), true));
     }
     
@@ -147,9 +147,9 @@ public class Table extends Database{
      * @param query - The query to be executed
      * @return JSON String of the queried data
      * */
-    Object getJson(String ...query) {
+    Object getJson() {
         if(query.length > 0)
-            return JSON.toJSONString(getData(query));
+            return JSON.toJSONString(getData());
         return getData();
     }
 
