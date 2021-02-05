@@ -1,6 +1,6 @@
 /* ****************************
- * Main Table class, handling Tables
- * This class derives from Database Abstract Class
+ * Main Configurations file, this contains coonection variables
+ * This class is used to simplify configurations for non-tech users
  *
  * Author:          AMIN MATOLA
  * Date Modified:   17 Nov 2020
