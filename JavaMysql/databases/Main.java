@@ -1,6 +1,6 @@
 /* ****************************
- * Main Table class, handling Tables
- * This class derives from Database Abstract Class
+ * This is the main class of this project
+ * It serves as the entry point of this project
  *
  * Author:          AMIN MATOLA
  * Date Modified:   17 Nov 2020
