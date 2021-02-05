@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
 	
         // Create Columns and their descriptions
-        Map<String, Object> columns = new HashMap<>();
+        Map<String, String> columns = new HashMap<>();
         columns.put("id", "INT PRIMARY KEY AUTO_INCREMENT");
         columns.put("name", "text");
         columns.put("age", "int not null");
