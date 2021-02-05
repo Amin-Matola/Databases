@@ -208,7 +208,7 @@ public class Table extends Database{
 
         for(Map.Entry<String, Object> iterator : item.entrySet()) {
             if (!result.isEmpty() && !result.isBlank())
-                result = f("%s and %s='%s'", result, iterator.getKey(), string(iterator.getValue()));
+                result = f("%s and %s='%s'", result, iterator.getKey(), (String) iterator.getValue());
             else
                 result = f("%s='%s'", iterator.getKey(), iterator.getValue());
         }
