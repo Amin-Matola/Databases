@@ -18,9 +18,9 @@ public class Main {
         Map<String, Object> columns = new HashMap<>();
         columns.put("id", "INT PRIMARY KEY AUTO_INCREMENT");
         columns.put("name", "text");
-        columns.put("age", "int not null")
+        columns.put("age", "int not null");
         
         // Create new table with the specified columns
-        Table table     = new Table("example-table", columns)
+        Table table     = new Table("example-table", columns);
     }
 }
