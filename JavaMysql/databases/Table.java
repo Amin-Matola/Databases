@@ -322,7 +322,7 @@ public class Table extends Database{
      * */
     public void clear(String ...name){
         if(name.length > 0)
-            this.table = name[0]
+            this.table = name[0];
         this.run(f("DELETE FROM %s", this.table));
     }
 }
