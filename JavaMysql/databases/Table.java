@@ -97,6 +97,8 @@ public class Table extends Database{
 
     /* *
      * Get all the data in this table
+     *
+     * @return List of Data Read from This table in the database.
      * */
     public List getData(){
         return readResults(this.run(f("SELECT * FROM %s", this.table), true));
@@ -154,6 +156,13 @@ public class Table extends Database{
         ).collect(Collectors.toList());
     }
 
+    /* *
+     * Build Test Parameters, to check for where/what of the rows to pick
+     *
+     * @param item - Map of Key - Value pairs to check from the database
+     *             - If the Map is empty, then "where" clause will have 1 = 1
+     * @return formatted string to fit "where x = y" clause
+     * */
     public String buildTest(Map<String, Object> item){
         String result = "";
 
@@ -171,6 +180,10 @@ public class Table extends Database{
 
     /* *
      * Get single row as array
+     *
+     * @param test - The key - value pair map to test where to take single row, sent to buildTest
+     *
+     * @return The single proposed item
      * */
     public Map getOne(Map<String, Object> ...test){
 
