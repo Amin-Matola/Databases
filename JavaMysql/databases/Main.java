@@ -21,6 +21,6 @@ public class Main {
         columns.put("age", "int not null");
         
         // Create new table with the specified columns
-        Table table     = new Table("example-table", columns);
+        Table table     = new Table("example_table", columns);
     }
 }
