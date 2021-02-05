@@ -1,3 +1,11 @@
+/* ****************************
+ * Main Table class, handling Tables
+ * This class derives from Database Abstract Class
+ *
+ * Author:          AMIN MATOLA
+ * Date Modified:   17 Nov 2020
+ */
+
 package JavaMysql.databases;
 
 
@@ -8,12 +16,22 @@ import java.util.stream.Collectors;
 
 public class Table extends Database{
 
-    public String table;
-    String columns  = "(";
-    public List __data;
+    // Table columns, useful when table is new
+    protected String table, columns  = "(";
+    
+    // Keeps executed query data as a list [of Maps]
+    protected List __data;
 
+    /* **********
+     * Custom Constructor method of this class
+     *
+     * @param table - String - Table Name, New or Available
+     * @param cols  - Map - Optional Map of Columns, when creating new table
+     *
+     * @return null
+     */
     Table( String table, Map<String, String> ...cols) {
-
+        //- Initialize Main Database Class before all others
         super.init();
 
         this.table      = table.length() > 1? table  : getConfig().TABLE;
@@ -22,6 +40,12 @@ public class Table extends Database{
             createTable(table, cols[0]);
     }
 
+    /* ***********
+     * Creates Table from given parameters
+     *
+     * @Param table - String - Table Name
+     * @Param cols  - Map of colums with datatype descriptions
+     */
     void createTable( String table, Map<String, String> cols) {
 
         if(table.isEmpty()){
@@ -45,6 +69,8 @@ public class Table extends Database{
 
     /* *
      * And now we wanna change table name
+     *
+     * @param what - String - The new name of the table  
      * */
     public void rename( String what ){
 
@@ -54,20 +80,30 @@ public class Table extends Database{
 
     /* *
      * What if we want to delete this table
+     *
+     * @param table - String - Name of the table to be deleted
      * */
     public boolean delete(String ...table){
-
-        String _tb          = table.length > 0 ? table[0] : this.table;
+        
+        String _tb        = table.length > 0 ? table[0] : this.table;
 
         if( ! _tb.isEmpty() ){
-            this.clear();
+            this.clear(_tb);
             this.run(f("DROP TABLE IF EXISTS %s", _tb));
             return true;
         }
         return false;
     }
 
-    public List readResults(ResultSet source, Object ...data){
+    /* *
+     * Read the results of this table after executing the query
+     *
+     * @param source - Resultset - The Query Result Object
+     * @param data   - Additional Data
+     *
+     * @return List - List of Map(s) of queried data
+     * */
+    public List readResults(ResultSet source){
             List<Map> results = new ArrayList<>();
 
 
@@ -284,7 +320,9 @@ public class Table extends Database{
     /* *
      * And we want to clear the table
      * */
-    public void clear(){
+    public void clear(String ...name){
+        if(name.length > 0)
+            this.table = name[0]
         this.run(f("DELETE FROM %s", this.table));
     }
 }
