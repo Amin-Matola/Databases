@@ -1,5 +1,4 @@
 <!DOCTYPE HTML>
-<!DOCTYPE html>
 <html>
 <head>
 	<title>Forms</title>
