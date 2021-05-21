@@ -145,7 +145,7 @@
                      
                      $header   = "From:$sender \r\n{$cc}MIME-Version: 1.0\r\nContent-type: text/html\r\n";
                      
-                     new Mail_Master("smtp.gmail.com", 465, ["aminmartola@gmail.com", "//-am_//993992326+in%"]);
+                     new Mail_Master("smtp.gmail.com", 465, ["admin@example.com", "some-pass"]);
                      $response = mail ($reciever, $subject, $body,$header);
 
                      
