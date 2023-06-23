@@ -26,10 +26,10 @@ public class Table extends Database{
     /* **********
      * Custom Constructor method of this class
      *
-     * @param table - String - Table Name, New or Available
-     * @param cols  - Map - Optional Map of Columns, when creating new table
+     * @param String table - Table Name, New or Available
+     * @param Map cols - Optional Map of Columns, when creating new table
      *
-     * @return null
+     * @return void
      */
     Table( String table, Map<String, String> ...cols) {
         //- Initialize Main Database Class before all others
@@ -44,8 +44,10 @@ public class Table extends Database{
     /* ***********
      * Creates Table from given parameters
      *
-     * @Param table - String - Table Name
-     * @Param cols  - Map of colums with datatype descriptions
+     * @Param String table - Table Name
+     * @Param Map cols - of colums with datatype descriptions
+     *
+     * @return void
      */
     void createTable( String table, Map<String, String> cols) {
 
@@ -71,7 +73,9 @@ public class Table extends Database{
     /* *
      * And now we wanna change table name
      *
-     * @param what - String - The new name of the table  
+     * @param String what - The new name of the table 
+     *
+     * @return void
      * */
     public void rename( String what ){
 
@@ -82,7 +86,9 @@ public class Table extends Database{
     /* *
      * What if we want to delete this table
      *
-     * @param table - String - Name of the table to be deleted
+     * @param String table - Name of the table to be deleted
+     *
+     * @return boolean
      * */
     public boolean delete(String ...table){
         
