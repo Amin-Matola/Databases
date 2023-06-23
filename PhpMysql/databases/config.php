@@ -45,7 +45,7 @@ define("TABLE", "store");
 /* *
  * Set the email that should be used as the from address for the outgoing emails
  * */
-define("ADMIN_EMAIL", "admin@codenug.com");
+define("ADMIN_EMAIL", "tests@librarypure.com");
 
 
 /* *
