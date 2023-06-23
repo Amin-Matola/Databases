@@ -58,13 +58,14 @@ public abstract class Database {
     public void createDatabase( String db, Statement state){
         if( db.isEmpty() || state == null )
             return;
-        if( state != null )
-            this.state      = state;
-        if( !db.isEmpty() )
-            this.db         = db;
+        
+        this.state      = state;
+        this.db         = db;
+        
         try {
             this.state.execute(f("CREATE DATABASE IF NOT EXISTS %s", db));
-        }catch (Exception e){
+        }
+        catch (Exception e){
 
         }
 
