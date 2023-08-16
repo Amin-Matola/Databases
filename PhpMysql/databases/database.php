@@ -73,23 +73,24 @@ abstract class Database{
      public function connect(){
          try{
                     $c  = mysqli_connect($this->host, $this->user, $this->pass, $this->db);
-            }catch(Exception $e){
-                     $c     = mysqli_connect($this->host, $this->user, $this->pass);
-                     $retry = '';
+         }
+         catch(Exception $e){
+             $c     = mysqli_connect($this->host, $this->user, $this->pass);
+             $retry = '';
 
-                     if($c){
-                         $this->create_database($this->db, $c);
-                         $retry = $this->reconnect($this->db);
-                         
-                     }
+             if($c){
+                 $this->create_database($this->db, $c);
+                 $retry = $this->reconnect($this->db);
+                 
+             }
 
-                     self::$connection = is_object($retry)? $retry : 'Not connected';
+             self::$connection = is_object($retry)? $retry : 'Not connected';
 
-                     if(!is_object(self::$connection)){
-                         return new Exception("Connection Error!  Not Establish Valid Connection!");
-                     }else{
-                        return self::$connection;
-                     }
+             if(!is_object(self::$connection)){
+                 return new Exception("Connection Error!  Not Establish Valid Connection!");
+             }else{
+                return self::$connection;
+             }
          }
          
          self::$connection = $c;
@@ -139,9 +140,8 @@ abstract class Database{
          $c  = mysqli_connect($this->host, $this->user, $this->pass, $db);
          if(is_object($c)){
              return $c;
-         }else{
-             return false;
          }
+         return false;
      }
       
 }
